@@ -1,0 +1,23 @@
+<idea-plugin>
+    <id>com.vel.buildvariantplugin</id>
+    <name>Android Build Variant Selector</name>
+
+    <vendor email="velgun.rs@gmail.com">Velmurugan</vendor>
+
+    <description><![CDATA[
+    Plugin to choose build variant of android in the main toolbar
+    ]]></description>
+
+    <actions>
+        <action id="com.vel.selectbuildvariant" class="com.vel.buildvariantplugin.SelectBuildVariantAction"
+                description="Variant" icon="StudioIcons.Shell.ToolWindows.BUILD_VARIANTS" popup="true">
+            <add-to-group group-id="ToolbarRunGroup" anchor="before" relative-to-action="RunnerActions"/>
+            <add-to-group group-id="MainToolbarRight" anchor="before"
+                          relative-to-action="ExecutionTargetsToolbarGroup"/>
+        </action>
+    </actions>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.android</depends>
+
+</idea-plugin>
