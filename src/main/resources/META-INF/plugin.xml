@@ -10,7 +10,7 @@
 
     <actions>
         <action id="com.vel.selectbuildvariant" class="com.vel.buildvariantplugin.SelectBuildVariantAction"
-                description="Variant" icon="StudioIcons.Shell.ToolWindows.BUILD_VARIANTS" popup="true">
+                description="Select build variant" popup="true">
             <add-to-group group-id="ToolbarRunGroup" anchor="before" relative-to-action="RunnerActions"/>
             <add-to-group group-id="MainToolbarRight" anchor="before"
                           relative-to-action="ExecutionTargetsToolbarGroup"/>
