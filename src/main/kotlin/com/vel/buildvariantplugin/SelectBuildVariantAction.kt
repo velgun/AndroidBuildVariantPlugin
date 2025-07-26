@@ -1,7 +1,7 @@
 package com.vel.buildvariantplugin
 
 
-import com.android.tools.idea.gradle.model.variantNames
+import com.android.tools.idea.gradle.model.IdeVariantBuildInformation
 import com.android.tools.idea.gradle.project.model.GradleAndroidModel
 import com.android.tools.idea.gradle.project.sync.GradleSyncState
 import com.android.tools.idea.gradle.variant.view.BuildVariantUpdater
@@ -54,7 +54,7 @@ class SelectBuildVariantAction : ComboBoxAction(), DumbAware {
                         currentVariant = it
                         e.presentation.text = it
                     }
-                    getBuildTypes(androidModule.androidProject.variantNames, project, currentVariant, module)
+                    getBuildTypes(androidModule.androidProject.variantsBuildInformation, project, currentVariant, module)
                     e.presentation.isEnabled = actions.isNotEmpty()
                 } else {
                     actions.clear()
@@ -69,17 +69,17 @@ class SelectBuildVariantAction : ComboBoxAction(), DumbAware {
     }
 
     private fun getBuildTypes(
-        buildVariants: Collection<String>?,
+        buildVariants: Collection<IdeVariantBuildInformation>,
         project: Project,
         currentVariant: String,
         module: Module
     ) {
         actions.clear()
-        buildVariants?.forEach { variant ->
-            actions.add(object : AnAction(variant) {
+        buildVariants.forEach { variant ->
+            actions.add(object : AnAction(variant.variantName) {
                 override fun update(e: AnActionEvent) {
-                    e.presentation.text = variant
-                    if (currentVariant == variant) {
+                    e.presentation.text = variant.variantName
+                    if (currentVariant == variant.variantName) {
                         e.presentation.icon = AllIcons.Actions.Checked_selected
                     } else {
                         e.presentation.icon = null
@@ -89,9 +89,9 @@ class SelectBuildVariantAction : ComboBoxAction(), DumbAware {
 
                 override fun actionPerformed(e: AnActionEvent) {
                     if (e.presentation.text != currentVariant) {
-                        project.getAndroidFacets().firstOrNull()?.mainModule?.let {
+                        project.getAndroidFacets().firstOrNull()?.module?.let {
                             BuildVariantUpdater.getInstance(project).run {
-                                updateSelectedBuildVariant(module, variant)
+                                updateSelectedBuildVariant(module, variant.variantName)
                             }
                         }
                     }
